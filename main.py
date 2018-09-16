@@ -8,9 +8,6 @@ counter:int = 0
 
 buffer:bool = True
 
-
-
-
 buff1: List[List[str]] = []
 buff2: List[List[str]] = []
 
@@ -61,38 +58,45 @@ def neighbors_number(r: int, c: int) -> int:
     return counter
             
 
-parseFile("input.txt")
-while True:
-    os.system("cls")
-    
-    for r in range(0, height):
-        for c in range(0, width):
-            print(('■' if leggi(r, c) == '#' else ' ' )+' ', end='')
-        print()
+def run() -> None:
+    global buffer, counter, width, height
 
+    while True:
+        os.system("clear")
+        
+        for r in range(0, height):
+            for c in range(0, width):
+                print(('■' if leggi(r, c) == '#' else ' ' )+' ', end='')
+            print()
 
-    
+        for r in range(0, height):
+            for c in range(0, width):
+                
+                nn:int = neighbors_number(r, c)
 
-    for r in range(0, height):
-        for c in range(0, width):
-            
-            nn:int = neighbors_number(r, c)
-
-            if leggi(r, c) == '.':
-                if nn == 3:
-                    scrivi(r, c, '#')
+                if leggi(r, c) == '.':
+                    if nn == 3:
+                        scrivi(r, c, '#')
+                    else:
+                        scrivi(r, c, '.')
                 else:
-                    scrivi(r, c, '.')
-            else:
-                if nn < 2:
-                    scrivi(r, c, '.')
-                elif nn == 2 or nn == 3:
-                    scrivi(r, c, '#')   
-                elif nn > 3:
-                    scrivi(r, c, '.')  
-                       
+                    if nn < 2:
+                        scrivi(r, c, '.')
+                    elif nn == 2 or nn == 3:
+                        scrivi(r, c, '#')   
+                    elif nn > 3:
+                        scrivi(r, c, '.')  
+                        
 
 
-    buffer = not buffer
-    counter += 1
-    time.sleep(0.0001)
+        buffer = not buffer
+        counter += 1
+        time.sleep(1/60)
+
+def main():
+    parseFile("input.txt")
+    run()
+
+    
+if __name__ == '__main__':
+    main()
